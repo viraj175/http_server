@@ -9,6 +9,8 @@
 #include "request.h"
 #include "response.h"
 
+#define MESSAGE_SIZE 1024
+
 int
 main()
 {
@@ -36,9 +38,9 @@ main()
             exit(EXIT_FAILURE);
         }
 
-        char raw_request[4096];
-        int n = recv(client_fd, raw_request, 4096, 0);
-        if (n == 1)
+        char raw_request[REQUEST_SIZE];
+        int n = recv(client_fd, raw_request, REQUEST_SIZE, 0);
+        if (n == -1)
         {
             perror("recv failed");
             exit(EXIT_FAILURE);
@@ -46,12 +48,11 @@ main()
         raw_request[n] = '\0';
 
         request_t request = {"", "", ""};
-        char *message = malloc(1024);
+        char message[MESSAGE_SIZE];
 
         parse_request(&request, raw_request);
-        send_response(client_fd, message, 1024, request.path);
+        send_response(client_fd, message, MESSAGE_SIZE, request.path);
 
-        free(message);
         close(client_fd);
     }
 

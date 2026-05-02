@@ -2,7 +2,7 @@
 #define RESPONSE_H
 
 #include <stdio.h>
-#define RESPONSE_SIZE 1024 * 1024
+#define RESPONSE_SIZE 4096
 
 typedef enum status_ {
     FILE_NOT_FOUND,

@@ -4,6 +4,7 @@
 #define PATH_SIZE 256
 #define METHOD_SIZE 8
 #define VERSION_SIZE 16
+#define REQUEST_SIZE 4096
 
 typedef struct request {
     char method[METHOD_SIZE];

@@ -27,24 +27,34 @@ main()
     listen(sock.socket_fd, 5);
     printf("listening on port 8080!\n");
 
-    int client_fd = accept(sock.socket_fd, NULL, NULL);
-    if (client_fd == -1)
+    while(1)
     {
-        perror("socket faild");
-        exit(EXIT_FAILURE);
+        int client_fd = accept(sock.socket_fd, NULL, NULL);
+        if (client_fd == -1)
+        {
+            perror("socket faild");
+            exit(EXIT_FAILURE);
+        }
+
+        char raw_request[4096];
+        int n = recv(client_fd, raw_request, 4096, 0);
+        if (n == 1)
+        {
+            perror("recv failed");
+            exit(EXIT_FAILURE);
+        }
+        raw_request[n] = '\0';
+
+        request_t request = {"", "", ""};
+        char *message = malloc(1024);
+
+        parse_request(&request, raw_request);
+        send_response(client_fd, message, 1024, request.path);
+
+        free(message);
+        close(client_fd);
     }
 
-    char raw_request[256];
-    recv(client_fd, raw_request, 256, 0);
-
-    request_t request;
-    char message[256];
-
-    parse_request(&request, raw_request);
-    read_response(message, sizeof(message));
-    send_response(client_fd, message);
-
-    close(client_fd);
     close(sock.socket_fd);
     return 0;
 }

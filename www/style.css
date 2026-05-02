@@ -1,0 +1,25 @@
+body {
+    font-family: monospace;
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    color: #89b4fa;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+}
+
+p {
+    color: #a6e3a1;
+}
